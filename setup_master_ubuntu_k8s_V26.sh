@@ -59,7 +59,7 @@ sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-echo -e "\n --> $BGreen Docker Installation Process <-- $Color_Off\n"
+echo -e "\n $BGreen -->  Docker Installation Process <-- $Color_Off\n"
 sleep 10
 
 
@@ -78,9 +78,9 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-sudo mkdir /etc/containerd
-echo -e  "\n $BRed DEBUG $Color_Off \n"
-sleep 10
+# sudo mkdir /etc/containerd
+# echo -e  "\n $BRed DEBUG $Color_Off \n"
+# sleep 10
 
 sudo sh -c "containerd config default > /etc/containerd/config.toml"
 sudo sed -i 's/ SystemdCgroup = false/ SystemdCgroup = true/' /etc/containerd/config.toml
@@ -91,3 +91,6 @@ sudo kubeadm config images pull
 sleep 2
 sudo kubeadm init --pod-network-cidr=10.10.0.0/16
 
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
