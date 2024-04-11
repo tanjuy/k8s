@@ -1,4 +1,4 @@
-!#/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Bold
 BBlack='\033[1;30m'       # Black
