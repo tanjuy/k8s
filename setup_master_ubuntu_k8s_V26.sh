@@ -94,3 +94,10 @@ sudo kubeadm init --pod-network-cidr=10.10.0.0/16
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+echo -e "\n $BPurple Kubectl bash-completion is being configured... $Color_Off \n"
+sleep 7
+# set up autocomplete in bash into the current shell, bash-completion package should be installed first.
+source <(kubectl completion bash) 
+# add autocomplete permanently to your bash shell.
+echo "source <(kubectl completion bash)" >> ~/.bashrc 
