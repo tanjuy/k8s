@@ -21,7 +21,7 @@ sudo swapon --show
 #
 sudo swapoff -av
 # swap'ı kalıcı olarak kapatıyoruz:
-sudo sed -i ‘/swap/s/^/#/’ /etc/fstab
+sudo sed -i '/swap/s/^/#/' /etc/fstab
 
 echo -e  "$BWhite --> SELinux is being configured <--$Color_Off \n"
 # Set SELinux in permissive mode (effectively disabling it):
@@ -54,8 +54,8 @@ sudo sysctl --system
 echo -e "\n $BGreen -->  Docker Installation Process <-- $Color_Off\n"
 sleep 7
 sudo yum install -y yum-utils
-
-sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 sudo systemctl enable --now docker
 
@@ -75,11 +75,12 @@ exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
 
 sudo yum install systemd-resolved.x86_64
-
+sudo systemctl enable --now systemd-resolved.service
 
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo systemctl enable --now kubelet
 
+sudo mkdir /etc/containerd
 sudo sh -c "containerd config default > /etc/containerd/config.toml"
 sudo sed -i 's/ SystemdCgroup = false/ SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl restart containerd.service
